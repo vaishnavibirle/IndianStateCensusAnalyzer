@@ -15,10 +15,18 @@ import java.util.Iterator;
 * checking the number of record matches*/
 public class StateCensusAnalyzer{
     private static int count=0;
-    private final String CSV_PATH = "C:\\Users\\irg\\IdeaProjects\\IndianStateCencusProblem\\StateCensusData.csv";
 
-    public int readCSVData() throws IOException{
-        Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH));
+    /*TC 1.2
+    * Given state census csv file
+    * if incorrect returns exception*/
+    public int readCSVData(String filePath) throws IOException , StateAnalyzerException{
+        try {
+            Files.newBufferedReader(Paths.get(filePath));
+        } catch (IOException e) {
+            throw new StateAnalyzerException("Invalid Path Name",
+                    StateAnalyzerException.ExceptionType.INVALID_FILE_PATH);
+        }
+        Reader reader = Files.newBufferedReader(Paths.get(filePath));
         CsvToBean<CSVStateCensus> csvToBean = new CsvToBeanBuilder<CSVStateCensus>(reader)
                 .withIgnoreLeadingWhiteSpace(true)
                 .withSkipLines(1)
